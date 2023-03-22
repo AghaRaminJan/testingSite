@@ -14,7 +14,6 @@
             margin: 0;
         }
 
-
         .progress-container {
             position: relative;
         }
@@ -24,12 +23,13 @@
             stroke: #ffffff;
             stroke-width: 20;
         }
-.progress-circle {
-    fill: none;
-    stroke: #000000;
-    stroke-width: 20;
-    stroke-dasharray: 565.48;
-}
+
+        .progress-circle {
+            fill: none;
+            stroke: #000000;
+            stroke-width: 20;
+        }
+
         .timer-display {
             position: absolute;
             top: 50%;
@@ -42,7 +42,7 @@
 </head>
 <body>
     <div class="progress-container">
-        <svg class="progress-circle-svg" viewBox="0 0 200 200">
+        <svg class="progress-circle-svg" width="200" height="200">
             <circle class="bg-circle" cx="100" cy="100" r="90" />
             <circle class="progress-circle" cx="100" cy="100" r="90" />
         </svg>
@@ -51,18 +51,15 @@
         </div>
     </div>
     <script>
-const progressCircleSVG = document.querySelector('.progress-circle-svg');
-const progressCircle = progressCircleSVG.querySelector('.progress-circle');
-const timeDisplay = document.getElementById('time-display');
-const timerDuration = 60 * 60; // 1 hour in seconds
-const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
+        const progressCircleSVG = document.querySelector('.progress-circle-svg');
+        const progressCircle = progressCircleSVG.querySelector('.progress-circle');
+        const timeDisplay = document.getElementById('time-display');
+        const timerDuration = 60 * 60; // 1 hour in seconds
+        const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
 
-let secondsElapsed = 0;
-progressCircle.style.strokeDasharray = `${circumference}`;
-progressCircle.style.strokeDashoffset = `${circumference}`;
-
-// Rest of the JavaScript code remains the same
-
+        let secondsElapsed = 0;
+        progressCircle.style.strokeDasharray = `${circumference}`;
+        progressCircle.style.strokeDashoffset = `${circumference}`;
 
         function updateProgress() {
             const percentage = secondsElapsed / timerDuration;
