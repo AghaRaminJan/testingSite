@@ -57,13 +57,17 @@
         </div>
     </div>
     <script>
-const progressCircle = document.querySelector('.progress-circle');
+const progressCircleSVG = document.querySelector('.progress-circle');
+const progressCircle = progressCircleSVG.querySelector('circle');
 const timeDisplay = document.getElementById('time-display');
 const timerDuration = 60 * 60; // 1 hour in seconds
-const circumference = 2 * Math.PI * progressCircle.querySelector('circle').getAttribute('r');
+const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
 
 let secondsElapsed = 0;
 progressCircle.style.strokeDasharray = `${circumference}`;
+
+// Rest of the JavaScript code remains the same
+
 
 function updateProgress() {
     const percentage = secondsElapsed / timerDuration;
