@@ -62,8 +62,8 @@
         const timerDuration = 60 * 60; // 1 hour in seconds
         const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
 
-        let secondsElapsed = 0;
-        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+        let secondsElapsed = 0; 
+        progressCircle.style.strokeDasharray = `${circumference}`;
 
         function updateProgress() {
             const percentage = secondsElapsed / timerDuration;
