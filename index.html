@@ -21,13 +21,13 @@
         .bg-circle {
             fill: none;
             stroke: #ffffff;
-            stroke-width: 20;
+            stroke-width: 30;
         }
 
         .progress-circle {
             fill: none;
-            stroke: #000000;
-            stroke-width: 20;
+            stroke: #0000ff;
+            stroke-width: 30;
         }
 
         .timer-display {
@@ -35,16 +35,16 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2rem;
+            font-size: 3rem;
             font-family: Arial, sans-serif;
         }
     </style>
 </head>
 <body>
     <div class="progress-container">
-        <svg class="progress-circle-svg" width="200" height="200">
-            <circle class="bg-circle" cx="100" cy="100" r="90" />
-            <circle class="progress-circle" cx="100" cy="100" r="90" />
+        <svg class="progress-circle-svg" width="300" height="300" viewBox="0 0 300 300">
+            <circle class="bg-circle" cx="150" cy="150" r="135" />
+            <circle class="progress-circle" cx="150" cy="150" r="135" />
         </svg>
         <div class="timer-display">
             <span id="time-display">1:00:00</span>
@@ -55,7 +55,8 @@
         const progressCircle = progressCircleSVG.querySelector('.progress-circle');
         const timeDisplay = document.getElementById('time-display');
         const timerDuration = 60 * 60; // 1 hour in seconds
-        const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
+        const radius = 135; // Updated radius value
+        const circumference = 2 * Math.PI * radius;
 
         let secondsElapsed = 0;
         progressCircle.style.strokeDasharray = `${circumference}`;
@@ -69,6 +70,7 @@
 
         function formatTime(seconds) {
             const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds
             const minutes = Math.floor((seconds % 3600) / 60);
             const remainingSeconds = seconds % 60;
             return `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
