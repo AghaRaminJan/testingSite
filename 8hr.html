@@ -56,11 +56,22 @@
         
     </style>
 </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Progress Bar Timer</title>
+    <style>
+        /* Add your existing CSS styles here */
+    </style>
+</head>
 <body>
     <div class="progress-container">
         <svg class="progress-circle-svg" width="600" height="600">
             <circle class="bg-circle" cx="300" cy="300" r="270" />
             <circle class="progress-circle" cx="300" cy="300" r="270" />
+            <image id="train" xlink:href="train-image-url" x="0" y="0" width="20" height="20" />
         </svg>
         <div class="timer-display">
             <span id="time-display">1:00:00</span>
@@ -69,6 +80,7 @@
             <span id="message-display">Study Time</span>
         </div>
     </div>
+    <script>
     <script>
 const progressCircleSVG = document.querySelector('.progress-circle-svg');
 const progressCircle = progressCircleSVG.querySelector('.progress-circle');
@@ -80,23 +92,24 @@ let secondsElapsed = 0;
 
 progressCircle.style.strokeDasharray = `${circumference}`;
 
-function updateProgress() {
-    const percentage = secondsElapsed / timerDuration;
-    const offset = circumference * (1 - percentage);
-    progressCircle.style.strokeDashoffset = offset;
-}
 
-function formatTime(seconds) {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = seconds % 60;
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
+        const train = document.getElementById('train');
 
-function updateTimerDisplay() {
-    const remainingTime = timerDuration - secondsElapsed;
-    timeDisplay.textContent = formatTime(remainingTime);
-}
+        function rotateTrain(percentage) {
+            const radius = parseFloat(progressCircle.getAttribute('r'));
+            const angle = percentage * 2 * Math.PI;
+            const x = 300 + radius * Math.cos(angle);
+            const y = 300 + radius * Math.sin(angle);
+            train.setAttribute('x', x - train.width.baseVal.value / 2);
+            train.setAttribute('y', y - train.height.baseVal.value / 2);
+        }
+
+        function updateProgress() {
+            const percentage = secondsElapsed / timerDuration;
+            const offset = circumference * (1 - percentage);
+            progressCircle.style.strokeDashoffset = offset;
+            rotateTrain(percentage);
+        }
 
 const timer = setInterval(() => {
     secondsElapsed += 1;
@@ -105,9 +118,13 @@ const timer = setInterval(() => {
 
     if (secondsElapsed >= timerDuration) {
         clearInterval(timer);
-    }
-}, 1000);
-
-</script>
+            // Add your existing timer interval code here
+        }, 1000);
+    </script>
 </body>
 </html>
+
+
+
+
+
