@@ -24,13 +24,14 @@
             stroke-width: 5;
         }
 
-        .progress-circle {
-            fill: none;
-            stroke: #953553;
-            stroke-width: 5;
-            transform: rotate(-90deg) translate(-600px) rotate(90deg);
-            transform-origin: 50% 50%;
-        }
+.progress-circle {
+    fill: none;
+    stroke: #953553;
+    stroke-width: 5;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
         
         .timer-display {
             position: absolute;
@@ -68,44 +69,44 @@
         </div>
     </div>
     <script>
-        const progressCircleSVG = document.querySelector('.progress-circle-svg');
-        const progressCircle = progressCircleSVG.querySelector('.progress-circle');
-        const timeDisplay = document.getElementById('time-display');
-        const timerDuration = 60 * 60; // 1 hour in seconds
-        const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
+const progressCircleSVG = document.querySelector('.progress-circle-svg');
+const progressCircle = progressCircleSVG.querySelector('.progress-circle');
+const timeDisplay = document.getElementById('time-display');
+const timerDuration = 60 * 60; // 1 hour in seconds
+const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
 
-        let secondsElapsed = 0;
+let secondsElapsed = 0;
 
-        progressCircle.style.strokeDasharray = `${circumference}`;
+progressCircle.style.strokeDasharray = `${circumference}`;
 
-        function updateProgress() {
-            const percentage = secondsElapsed / timerDuration;
-            const offset = circumference - percentage * circumference;
-            console.log('offset:', offset);
-            progressCircle.style.strokeDashoffset = offset;
-        }
+function updateProgress() {
+    const percentage = secondsElapsed / timerDuration;
+    const offset = circumference * (1 - percentage);
+    progressCircle.style.strokeDashoffset = offset;
+}
 
-            function formatTime(seconds) {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const remainingSeconds = seconds % 60;
-        return `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+function formatTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+function updateTimerDisplay() {
+    const remainingTime = timerDuration - secondsElapsed;
+    timeDisplay.textContent = formatTime(remainingTime);
+}
+
+const timer = setInterval(() => {
+    secondsElapsed += 1;
+    updateProgress();
+    updateTimerDisplay();
+
+    if (secondsElapsed >= timerDuration) {
+        clearInterval(timer);
     }
+}, 1000);
 
-    function updateTimerDisplay() {
-        const remainingTime = timerDuration - secondsElapsed;
-        timeDisplay.textContent = formatTime(remainingTime);
-    }
-
-    const timer = setInterval(() => {
-        secondsElapsed += 1;
-        updateProgress();
-        updateTimerDisplay();
-
-        if (secondsElapsed >= timerDuration) {
-            clearInterval(timer);
-        }
-    }, 1000);
 </script>
 </body>
 </html>
