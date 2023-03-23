@@ -80,7 +80,7 @@
         progressCircle.style.strokeDasharray = `${circumference}`;
 
         const train = document.getElementById('train');
-
+/*
         function rotateTrain(percentage) {
             const radius = parseFloat(progressCircle.getAttribute('r'));
             const angle = percentage * 2 * Math.PI;
@@ -89,6 +89,18 @@
             train.setAttribute('x', x - train.width.baseVal.value / 2);
             train.setAttribute('y', y - train.height.baseVal.value / 2);
         }
+*/
+        function rotateTrain(percentage) {
+    const radius = parseFloat(progressCircle.getAttribute('r'));
+    const angle = percentage * 2 * Math.PI;
+    const x = 300 + radius * Math.cos(angle);
+    const y = 300 + radius * Math.sin(angle);
+
+    const rotationAngle = percentage * 360;
+    train.setAttribute('x', x - train.width.baseVal.value / 2);
+    train.setAttribute('y', y - train.height.baseVal.value / 2);
+    train.setAttribute('transform', `rotate(${rotationAngle}, ${x}, ${y})`);
+}
 
         function updateProgress() {
             const percentage = secondsElapsed /
