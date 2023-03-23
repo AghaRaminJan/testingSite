@@ -22,18 +22,18 @@
         fill: none;
         stroke: #953553;
         stroke-width: 5;
-        stroke-dasharray: 1, 4; /* set to create a dotted line */
+        stroke-dasharray: 1, 4;
       }
 
       .progress-circle {
         fill: none;
         stroke: #953553;
         stroke-width: 5;
-        stroke-dasharray: 1, 4; /* set to create a dotted line */
-        stroke-linecap: round; /* set to create a rounded end on the progress line */
+        stroke-dasharray: 1, 4;
+        stroke-linecap: round;
         transform: rotate(-90deg);
         transform-origin: 50% 50%;
-        transition: stroke-dashoffset 1s ease-out; /* add transition for smooth progress */
+        transition: stroke-dashoffset 1s ease-out;
       }
 
       .timer-display {
@@ -78,7 +78,7 @@
       const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
 
       let secondsElapsed = 0;
-      let progress = circumference;
+      let progress = 0;
 
       function updateProgress() {
         const percentage = secondsElapsed / timerDuration;
@@ -94,7 +94,8 @@
       }
 
       function updateTimerDisplay() {
-    const remainingTime = timerDuration - secondsElapsed;
+        const
+    remainingTime = timerDuration - secondsElapsed;
     timeDisplay.textContent = formatTime(remainingTime);
   }
 
