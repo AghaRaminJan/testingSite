@@ -5,86 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Circle Progress Bar Timer</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #000000;
-            margin: 0;
-        }
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #000000;
+  margin: 0;
+}
 
-        .progress-container {
-            position: relative;
-        }
+.progress-container {
+  position: relative;
+}
 
-        .bg-circle {
-            fill: none;
-            stroke: #ff0843; /* Set to a contrasting color to make progress bar visible */
-            stroke-width: 5;
-            /* stroke-dasharray: 9, 9; */
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-        }
-        .progress-circle {
-            fill: none;
-            stroke: #000000;
-            stroke-width: 4;
-            /* stroke-dasharray: 9, 9; */
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-        }
-        .timer-display {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 5rem;
-            font-family: Verdana, sans-serif;
-            color: #ffffff;
-        }
+.bg-circle {
+  fill: none;
+  stroke: #ff0843;
+  stroke-width: 5;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
 
-        .message-display {
-            position: absolute;
-            top: 0%;
-            left: 50%;
-            transform: translate(-50%, 150%);
-            font-size: 2.5rem;
-            font-family: Verdana, sans-serif;
-            color: #ffffff;
-        }
-        .train-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            transform-origin: 50% 50%;
-          }
+.progress-circle {
+  fill: none;
+  stroke: #000000;
+  stroke-width: 4;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
 
-          .train {
-            position: absolute;
-            top: -20px; /* adjust to position the train correctly */
-            left: 0;
-            transform: rotate(-90deg);
-            width: 50px; /* adjust to the size of your train image */
-            height: 50px;
-          }
-          .train-container {
-            stroke-dasharray: ${circumference};
-            stroke-dashoffset: ${circumference};
-            transform-origin: center;
-            animation: moveTrain ${timerDuration}s linear forwards;
-          }
+.timer-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 5rem;
+  font-family: Verdana, sans-serif;
+  color: #ffffff;
+}
 
-          @keyframes moveTrain {
-            from {
-              stroke-dashoffset: ${circumference};
-              transform: rotate(-90deg);
-            }
-            to {
-              stroke-dashoffset: 0;
-              transform: rotate(270deg);
-            }
-          }
+.message-display {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 150%);
+  font-size: 2.5rem;
+  font-family: Verdana, sans-serif;
+  color: #ffffff;
+}
+
+.train-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 50% 50%;
+}
+
+.train {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  width: 50px;
+  height: 50px;
+}
+
+.train-container {
+  stroke-dasharray: ${circumference};
+  stroke-dashoffset: ${circumference};
+  transform-origin: center;
+  animation: moveTrain ${timerDuration}s linear forwards;
+}
+
+@keyframes moveTrain {
+  from {
+    stroke-dashoffset: ${circumference};
+    transform: rotate(-90deg);
+  }
+  to {
+    stroke-dashoffset: 0;
+    transform: rotate(270deg);
+  }
+}
+
 
     </style>
 </head>
@@ -110,7 +113,7 @@ const progressCircle = progressCircleSVG.querySelector('.progress-circle');
 const timeDisplay = document.getElementById('time-display');
 const trainImage = document.querySelector('.train');
 const trainContainer = document.querySelector('.train-container');
-const timerDuration = 60 * 60 ; // 1 hours in seconds
+const timerDuration = 8 * 60 * 60; // 8 hours in seconds
 const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
 
 let secondsElapsed = 0;
@@ -122,12 +125,14 @@ function updateProgress() {
   const offset = circumference * (1 - percentage);
   progressCircle.style.strokeDashoffset = offset;
   
-  // Animate the train along with the progress bar
-  const trainRotation = (360 * percentage) - 90;
-  trainImage.style.transform = `rotate(${trainRotation}deg)`;
-  trainContainer.style.transform = `rotate(${trainRotation}deg)`;
-  const trainPosition = circumference - (circumference * percentage);
-  trainContainer.style.strokeDashoffset = trainPosition;
+  if (percentage < 1) {
+    // Animate the train along with the progress bar
+    const trainRotation = (360 * percentage) - 90;
+    trainImage.style.transform = `rotate(${trainRotation}deg)`;
+    trainContainer.style.transform = `rotate(${trainRotation}deg)`;
+    const trainPosition = circumference - (circumference * percentage);
+    trainContainer.style.strokeDashoffset = trainPosition;
+  }
 }
 
 function formatTime(seconds) {
@@ -151,6 +156,7 @@ const timer = setInterval(() => {
     clearInterval(timer);
   }
 }, 1000);
+
 
 
 </script>
