@@ -56,23 +56,8 @@ body {
 
 .train-container {
   position: absolute;
-  top: 0;
-  left: 0;
-  transform-origin: 50% 50%;
-}
-
-.train {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%) rotate(-90deg);
-  width: 50px;
-  height: 50px;
-}
-
-.train-container {
-  stroke-dasharray: ${circumference};
-  stroke-dashoffset: ${circumference};
+stroke-dasharray: ${circumference + trainWidth} ${circumference};
+  stroke-dashoffset: ${circumference + trainWidth};
   transform-origin: center;
   animation: moveTrain ${timerDuration}s linear forwards;
 }
@@ -88,7 +73,14 @@ body {
   }
 }
 
-
+@media only screen and (max-width: 600px) {
+  .timer-display {
+    font-size: 3rem;
+  }
+  .message-display {
+    font-size: 2rem;
+  }
+}
     </style>
 </head>
 <body>
@@ -115,11 +107,8 @@ const trainImage = document.querySelector('.train');
 const trainContainer = document.querySelector('.train-container');
 const timerDuration = 8 * 60 * 60; // 8 hours in seconds
 const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
+const trainWidth = 50; // adjust to the width of your train image
 
-        
-        
-        
-        
 let secondsElapsed = 0;
 
 progressCircle.style.strokeDasharray = `${circumference}`;
@@ -129,14 +118,12 @@ function updateProgress() {
   const offset = circumference * (1 - percentage);
   progressCircle.style.strokeDashoffset = offset;
 
-
   if (percentage < 1) {
     // Animate the train along with the progress bar
-  const trainPosition = circumference - ((circumference + trainWidth) * percentage);
-trainContainer.style.strokeDashoffset = trainPosition;
-    trainContainer.style.transform = `rotate(${trainRotation}deg)`;
-    const trainPosition = circumference - (circumference * percentage);
+    const trainPosition = circumference - ((circumference + trainWidth) * percentage);
     trainContainer.style.strokeDashoffset = trainPosition;
+    const trainRotation = (360 * percentage) - 90;
+    trainContainer.style.transform = `rotate(${trainRotation}deg)`;
   }
 }
 
@@ -161,6 +148,7 @@ const timer = setInterval(() => {
     clearInterval(timer);
   }
 }, 1000);
+
 
 
 
