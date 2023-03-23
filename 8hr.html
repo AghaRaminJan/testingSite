@@ -3,163 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Circle Progress Bar Timer</title>
+    <title>Train Timer</title>
     <style>
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #000000;
-  margin: 0;
-}
-
-.progress-container {
-  position: relative;
-}
-
-.bg-circle {
-  fill: none;
-  stroke: #ff0843;
-  stroke-width: 5;
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
-}
-
-.progress-circle {
-  fill: none;
-  stroke: #000000;
-  stroke-width: 4;
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
-}
-
-.timer-display {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 5rem;
-  font-family: Verdana, sans-serif;
-  color: #ffffff;
-}
-
-.message-display {
-  position: absolute;
-  top: 0%;
-  left: 50%;
-  transform: translate(-50%, 150%);
-  font-size: 2.5rem;
-  font-family: Verdana, sans-serif;
-  color: #ffffff;
-}
-.train-container {
-  position: absolute;
-  top: 15%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-90deg);
-  transform-origin: 50% 50%;
-}
-
-.train {
-  position: absolute;
-  top: -${trainWidth / 2}px;
-  left: -${trainWidth / 2}px;
-  width: 50px;
-  height: 50px;
-  transform: rotate(90deg);
-}
-.train-container {
-  stroke-dasharray: ${circumference};
-  stroke-dashoffset: ${circumference};
-  animation: moveTrain ${timerDuration}s linear forwards;
-}
-
-@keyframes moveTrain {
-  from {
-    stroke-dashoffset: ${circumference};
-    transform: translate(-50%, -50%) rotate(-90deg);
-  }
-  to {
-    stroke-dashoffset: 0;
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-
-
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        svg {
+            transform: rotate(-90deg);
+        }
+        #progress-bar {
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s;
+        }
+        #timer {
+            position: absolute;
+            font-family: Arial, sans-serif;
+            font-size: 48px;
+            color: #333;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <div class="progress-container">
-        <svg class="progress-circle-svg" width="600" height="600">
-            <circle class="bg-circle" cx="300" cy="300" r="270" />
-            <circle class="progress-circle" cx="300" cy="300" r="270" />
-        </svg>
-        <div class="timer-display">
-            <span id="time-display">1:00:00</span>
-        </div>
-        <div class="message-display">
-            <span id="message-display">Study Time</span>
-        </div>
-      <div class="train-container">
-        <img class="train" src="train.png" alt="Train">
-      </div>
-    </div>
+    <div id="timer">60:00</div>
+    <svg width="300" height="300" viewBox="0 0 300 300">
+        <g>
+            <circle cx="150" cy="150" r="100" fill="none" stroke="#000" stroke-width="10" />
+            <circle id="progress-bar" cx="150" cy="150" r="100" fill="none" stroke="#f00" stroke-width="10" stroke-dasharray="0, 1000" />
+            <image id="train" xlink:href="train-image-url" x="0" y="0" width="20" height="20">
+                <animateMotion dur="3600s" repeatCount="1" fill="freeze">
+                    <mpath xlink:href="#path" />
+                </animateMotion>
+            </image>
+        </g>
+    </svg>
     <script>
-const progressCircleSVG = document.querySelector('.progress-circle-svg');
-const progressCircle = progressCircleSVG.querySelector('.progress-circle');
-const timeDisplay = document.getElementById('time-display');
-const trainImage = document.querySelector('.train');
-const trainContainer = document.querySelector('.train-container');
-const timerDuration = 60 * 60; // 8 hours in seconds
-const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
-const trainWidth = trainImage.width;
+        const timerDuration = 3600; // Duration of the timer in seconds (60 minutes)
+        const timerDisplay = document.getElementById('timer');
+        const progressCircle = document.getElementById('progress-bar');
+        const trainImage = document.getElementById('train');
+        const circumference = 2 * Math.PI * 100;
+        const trainWidth = 20;
+        let secondsElapsed = 0;
 
-let secondsElapsed = 0;
+        progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+        progressCircle.style.strokeDashoffset = circumference;
 
-progressCircle.style.strokeDasharray = `${circumference}`;
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
 
-function updateProgress() {
-  const percentage = secondsElapsed / timerDuration;
-  const offset = circumference * (1 - percentage);
-  progressCircle.style.strokeDashoffset = offset;
+        function updateProgress() {
+            secondsElapsed++;
+            const percentage = secondsElapsed / timerDuration;
+            const offset = circumference * (1 - percentage);
+            progressCircle.style.strokeDashoffset = offset;
 
-  if (percentage < 1) {
-    // Animate the train along with the progress bar
-    const trainPosition = circumference - ((circumference + trainWidth) * percentage);
-    trainContainer.style.strokeDashoffset = -trainPosition;
+            timerDisplay.textContent = formatTime(timerDuration - secondsElapsed);
 
-    // Rotate the train image
-    const trainRotation = 360 * percentage;
-    trainImage.style.transform = `translate(-50%, -50%) rotate(${trainRotation}deg)`;
-  }
-}
+            if (percentage < 1) {
+                // Animate the train along with the progress bar
+                const trainPosition = circumference - ((circumference + trainWidth) * percentage);
+                trainImage.setAttribute('transform', `translate(${trainPosition}) rotate(${360 * percentage}, 150, 150)`);
+            }
+        }
 
-
-function formatTime(seconds) {
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const remainingSeconds = seconds % 60;
-  return `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
-
-function updateTimerDisplay() {
-  const remainingTime = timerDuration - secondsElapsed;
-  timeDisplay.textContent = formatTime(remainingTime);
-}
-
-const timer = setInterval(() => {
-  secondsElapsed += 1;
-  updateProgress();
-  updateTimerDisplay();
-
-  if (secondsElapsed >= timerDuration) {
-    clearInterval(timer);
-  }
-}, 1000);
-
-
-</script>
+        setInterval(updateProgress, 1000); // Update the progress every second
+    </script>
 </body>
 </html>
