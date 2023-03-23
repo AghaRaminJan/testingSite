@@ -113,7 +113,7 @@ const trainImage = document.querySelector('.train');
 const trainContainer = document.querySelector('.train-container');
 const timerDuration = 60 * 60; // 8 hours in seconds
 const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
-const trainWidth = 50; // adjust to the width of your train image
+const trainWidth = trainImage.width;
 
 let secondsElapsed = 0;
 
@@ -128,8 +128,10 @@ function updateProgress() {
     // Animate the train along with the progress bar
     const trainPosition = circumference - ((circumference + trainWidth) * percentage);
     trainContainer.style.strokeDashoffset = trainPosition;
-    const trainRotation = (360 * percentage) - 90;
-    trainContainer.style.transform = `rotate(${trainRotation}deg)`;
+
+    // Rotate the train image
+    const trainRotation = 360 * percentage - 90;
+    trainImage.style.transform = `translate(-50%, -50%) rotate(${trainRotation}deg)`;
   }
 }
 
@@ -154,8 +156,6 @@ const timer = setInterval(() => {
     clearInterval(timer);
   }
 }, 1000);
-
-
 
 
 </script>
