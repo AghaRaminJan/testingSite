@@ -1,112 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Circle Progress Bar Timer</title>
     <style>
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #000000;
-        margin: 0;
-      }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000000;
+            margin: 0;
+        }
 
-      .progress-container {
-        position: relative;
-      }
+        .progress-container {
+            position: relative;
+        }
+.bg-circle {
+    fill: none;
+    stroke: #953553;
+    stroke-width: 5;
+}
 
-      .bg-circle {
-        fill: none;
-        stroke: #953553;
-        stroke-width: 5;
-        stroke-dasharray: 1, 4;
-      }
 
-      .progress-circle {
-        stroke-width: 5;
-        stroke: #953553;
-        stroke-dasharray: 1, 4;
-        stroke-linecap: round;
-        transform: rotate(-90deg);
-        transform-origin: 50% 50%;
-        transition: stroke-dashoffset 1s ease-out;
-      }
+.progress-circle {
+    fill: none;
+    stroke: #953553;
+    stroke-width: 5;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
 
-      .timer-display {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 5rem;
-        font-family: Arial, sans-serif;
-        color: #ffffff;
-      }
 
-      .message-display {
-        position: absolute;
-        top: 0%;
-        left: 50%;
-        transform: translate(-50%, 150%);
-        font-size: 2.5rem;
-        font-family: Arial, sans-serif;
-        color: #ffffff;
-      }
+        .timer-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5rem;
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+        }
+        .message-display {
+            position: absolute;
+            top: 0%;
+            left: 50%;
+            transform: translate(-50%, 150%);
+            font-size: 2.5rem;
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+        }
+        
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="progress-container">
-      <svg class="progress-circle-svg" width="600" height="600">
-        <circle class="bg-circle" cx="300" cy="300" r="270" />
-        <circle class="progress-circle stroke-dotted" cx="300" cy="300" r="270" />
-      </svg>
-      <div class="timer-display">
-        <span id="time-display">1:00:00</span>
-      </div>
-      <div class="message-display">
-        <span id="message-display">Study Time</span>
-      </div>
+        <svg class="progress-circle-svg" width="600" height="600">
+            <circle class="bg-circle" cx="300" cy="300" r="270" />
+            <circle class="progress-circle" cx="300" cy="300" r="270" />
+        </svg>
+        <div class="timer-display">
+            <span id="time-display">1:00:00</span>
+        </div>
+        <div class="message-display">
+            <span id="message-display">Study Time</span>
+        </div>
     </div>
     <script>
-      const progressCircleSVG = document.querySelector('.progress-circle-svg');
-      const progressCircle =
-      progressCircleSVG.querySelector('.progress-circle');
-      const timeDisplay = document.getElementById('time-display');
-      const timerDuration = 60 * 60; // 1 hour in seconds
-      const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
+        const progressCircleSVG = document.querySelector('.progress-circle-svg');
+        const progressCircle = progressCircleSVG.querySelector('.progress-circle');
+        const timeDisplay = document.getElementById('time-display');
+        const timerDuration = 60 * 60; // 1 hour in seconds
+        const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
+
         let secondsElapsed = 0;
-  let progress = 0;
 
-  function updateProgress() {
-    const percentage = secondsElapsed / timerDuration;
-    const offset = circumference * percentage;
-    progressCircle.style.strokeDashoffset = circumference - offset;
-    progress = circumference - offset;
-  }
+progressCircle.style.strokeDasharray = `${circumference}`;
+progressCircle.style.strokeDashoffset = `${circumference}`;
 
-  function formatTime(seconds) {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = seconds % 60;
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-  }
+        function updateProgress() {
+            const percentage = secondsElapsed / timerDuration;
+            const offset = circumference - percentage * circumference;
+            progressCircle.style.strokeDashoffset = offset;
+        }
 
-  function updateTimerDisplay() {
-    const remainingTime = timerDuration - secondsElapsed;
-    timeDisplay.textContent = formatTime(remainingTime);
-  }
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainingSeconds = seconds % 60;
+            return `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
 
-  const timer = setInterval(() => {
-    secondsElapsed += 1;
-    updateProgress();
-    updateTimerDisplay();
+        function updateTimerDisplay() {
+            const remainingTime = timerDuration - secondsElapsed;
+            timeDisplay.textContent = formatTime(remainingTime);
+        }
 
-    if (secondsElapsed >= timerDuration) {
-      clearInterval(timer);
-    }
-  }, 1000);
-</script>
+        const timer = setInterval(() => {
+            secondsElapsed += 1;
+            updateProgress();
+            updateTimerDisplay();
+
+            if (secondsElapsed >= timerDuration) {
+                clearInterval(timer);
+            }
+        }, 1000);
+    </script>
 </body>
 </html>
