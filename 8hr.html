@@ -128,7 +128,7 @@ function updateProgress() {
   if (percentage < 1) {
     // Animate the train along with the progress bar
     const trainPosition = circumference - ((circumference + trainWidth) * percentage);
-    trainContainer.style.strokeDashoffset = trainPosition;
+    trainContainer.style.strokeDashoffset = -trainPosition;
 
     // Rotate the train image
     const trainRotation = 360 * percentage;
