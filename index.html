@@ -17,27 +17,21 @@
         .progress-container {
             position: relative;
         }
-/*
-        .bg-circle 
-	{
-            fill: none;
-            stroke: #953553;
-            stroke-width: 5;
-        } */
-	.progress-circle {
-            fill: none;
-            stroke: #953553;
-            stroke-width: 5;
-        } 
-	.bg-circle {
-	    fill: none;
-	    stroke: #953553;
-	    stroke-width: 5;
-	    stroke-dasharray: 10;
-	    stroke-dashoffset: 0;
-	    transform: rotate(-180deg);
-	    transform-origin: right;
-	}
+.bg-circle {
+    fill: none;
+    stroke: #953553;
+    stroke-width: 5;
+}
+
+
+.progress-circle {
+    fill: none;
+    stroke: #953553;
+    stroke-width: 5;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
 
         .timer-display {
             position: absolute;
@@ -81,8 +75,9 @@
         const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
 
         let secondsElapsed = 0;
-        progressCircle.style.strokeDasharray = `${circumference}`;
-        progressCircle.style.strokeDashoffset = `${circumference}`;
+
+progressCircle.style.strokeDasharray = `${circumference}`;
+progressCircle.style.strokeDashoffset = `${circumference}`;
 
         function updateProgress() {
             const percentage = secondsElapsed / timerDuration;
