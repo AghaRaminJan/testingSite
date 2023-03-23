@@ -55,7 +55,7 @@ body {
 }
 .train-container {
   position: absolute;
-  top: 50%;
+  top: 15%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(-90deg);
   transform-origin: 50% 50%;
@@ -63,22 +63,21 @@ body {
 
 .train {
   position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translate(-50%, -50%) rotate(90deg);
+  top: -${trainWidth / 2}px;
+  left: -${trainWidth / 2}px;
   width: 50px;
   height: 50px;
+  transform: rotate(90deg);
 }
-
 .train-container {
-  stroke-dasharray: ${circumference + trainWidth};
-  stroke-dashoffset: ${circumference + trainWidth};
+  stroke-dasharray: ${circumference};
+  stroke-dashoffset: ${circumference};
   animation: moveTrain ${timerDuration}s linear forwards;
 }
 
 @keyframes moveTrain {
   from {
-    stroke-dashoffset: ${circumference + trainWidth};
+    stroke-dashoffset: ${circumference};
     transform: translate(-50%, -50%) rotate(-90deg);
   }
   to {
@@ -86,6 +85,7 @@ body {
     transform: translate(-50%, -50%) rotate(270deg);
   }
 }
+
 
     </style>
 </head>
