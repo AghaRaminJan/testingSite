@@ -64,8 +64,8 @@
 <body>
     <div class="progress-container">
         <svg class="progress-circle-svg" width="600" height="600">
-            <circle class="bg-circle" cx="300" cy="300" r="270" />
-            <circle class="progress-circle" cx="300" cy="300" r="270" />
+            <circle class="bg-circle" cx="300" cy="300" r="90" />
+            <circle class="progress-circle" cx="300" cy="300" r="90" />
         </svg>
         <div class="timer-display">
             <span id="time-display">1:00:00</span>
@@ -79,7 +79,7 @@
         const progressCircle = progressCircleSVG.querySelector('.progress-circle');
         const timeDisplay = document.getElementById('time-display');
         const timerDuration = 60 * 60; // 1 hour in seconds
-        const circumference = 4 * Math.PI * progressCircle.getAttribute('r');
+        const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
 
         let secondsElapsed = 0;
         progressCircle.style.strokeDasharray = `${circumference}`;
