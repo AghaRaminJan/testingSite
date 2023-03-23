@@ -53,34 +53,40 @@ body {
   font-family: Verdana, sans-serif;
   color: #ffffff;
 }
-
 .train-container {
   position: absolute;
-stroke-dasharray: ${circumference + trainWidth} ${circumference};
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.train {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%) rotate(90deg);
+  width: 50px;
+  height: 50px;
+}
+
+.train-container {
+  stroke-dasharray: ${circumference + trainWidth};
   stroke-dashoffset: ${circumference + trainWidth};
-  transform-origin: center;
   animation: moveTrain ${timerDuration}s linear forwards;
 }
 
 @keyframes moveTrain {
   from {
     stroke-dashoffset: ${circumference + trainWidth};
-    transform: translateX(-50%) rotate(-90deg);
+    transform: translate(-50%, -50%) rotate(-90deg);
   }
   to {
     stroke-dashoffset: 0;
-    transform: translateX(-50%) rotate(270deg);
+    transform: translate(-50%, -50%) rotate(270deg);
   }
 }
 
-@media only screen and (max-width: 600px) {
-  .timer-display {
-    font-size: 3rem;
-  }
-  .message-display {
-    font-size: 2rem;
-  }
-}
     </style>
 </head>
 <body>
