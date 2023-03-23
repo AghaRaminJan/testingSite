@@ -1,4 +1,3 @@
-</head>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,9 +20,8 @@
 
         .bg-circle {
             fill: none;
-            stroke: #ff0843; /* Set to a contrasting color to make progress bar visible */
+            stroke: #ff0843;
             stroke-width: 5;
-            /* stroke-dasharray: 9, 9; */
             transform: rotate(-90deg);
             transform-origin: 50% 50%;
         }
@@ -31,7 +29,6 @@
             fill: none;
             stroke: #000000;
             stroke-width: 4;
-            /* stroke-dasharray: 9, 9; */
             transform: rotate(-90deg);
             transform-origin: 50% 50%;
         }
@@ -54,6 +51,7 @@
             font-family: Verdana, sans-serif;
             color: #ffffff;
         }
+        
     </style>
 </head>
 <body>
@@ -71,17 +69,15 @@
         </div>
     </div>
     <script>
-    <script>
-const progressCircleSVG = document.querySelector('.progress-circle-svg');
-const progressCircle = progressCircleSVG.querySelector('.progress-circle');
-const timeDisplay = document.getElementById('time-display');
-const timerDuration = 60 * 60; // 1 hour in seconds
-const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
+        const progressCircleSVG = document.querySelector('.progress-circle-svg');
+        const progressCircle = progressCircleSVG.querySelector('.progress-circle');
+        const timeDisplay = document.getElementById('time-display');
+        const timerDuration = 60 * 60; // 1 hour in seconds
+        const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
 
-let secondsElapsed = 0;
+        let secondsElapsed = 0;
 
-progressCircle.style.strokeDasharray = `${circumference}`;
-
+        progressCircle.style.strokeDasharray = `${circumference}`;
 
         const train = document.getElementById('train');
 
@@ -95,26 +91,33 @@ progressCircle.style.strokeDasharray = `${circumference}`;
         }
 
         function updateProgress() {
-            const percentage = secondsElapsed / timerDuration;
+            const percentage = secondsElapsed /
+            timerDuration;
             const offset = circumference * (1 - percentage);
             progressCircle.style.strokeDashoffset = offset;
             rotateTrain(percentage);
+            }
+            function formatTime(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+        return `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+
+    function updateTimerDisplay() {
+        const remainingTime = timerDuration - secondsElapsed;
+        timeDisplay.textContent = formatTime(remainingTime);
+    }
+
+    const timer = setInterval(() => {
+        secondsElapsed += 1;
+        updateProgress();
+        updateTimerDisplay();
+
+        if (secondsElapsed >= timerDuration) {
+            clearInterval(timer);
         }
-
-const timer = setInterval(() => {
-    secondsElapsed += 1;
-    updateProgress();
-    updateTimerDisplay();
-
-    if (secondsElapsed >= timerDuration) {
-        clearInterval(timer);
-            // Add your existing timer interval code here
-        }, 1000);
-    </script>
+    }, 1000);
+</script>
 </body>
 </html>
-
-
-
-
-
