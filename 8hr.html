@@ -130,7 +130,7 @@ function updateProgress() {
     trainContainer.style.strokeDashoffset = trainPosition;
 
     // Rotate the train image
-    const trainRotation = 360 * percentage - 90;
+    const trainRotation = 360 * percentage;
     trainImage.style.transform = `translate(-50%, -50%) rotate(${trainRotation}deg)`;
   }
 }
