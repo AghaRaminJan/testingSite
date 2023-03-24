@@ -62,7 +62,7 @@
             <image id="train" xlink:href="TheCarModel.gif" x="0" y="-5" width="20%" height="20%" />
         </svg>
         <div class="timer-display">
-            <span id="time-display">1:00:00</span>
+            <span id="time-display">8:00:00</span>
         </div>
         <div class="message-display">
             <span id="message-display">Sleep Well</span>
@@ -72,7 +72,7 @@
         const progressCircleSVG = document.querySelector('.progress-circle-svg');
         const progressCircle = progressCircleSVG.querySelector('.progress-circle');
         const timeDisplay = document.getElementById('time-display');
-        const timerDuration = 60 * 60; // 1 hour in seconds
+        const timerDuration = 60 * 60 * 8; // 8 hour in seconds
         const circumference = 2 * Math.PI * progressCircle.getAttribute('r');
 
         let secondsElapsed = 0;
